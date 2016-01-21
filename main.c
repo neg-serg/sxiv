@@ -570,16 +570,9 @@ void on_keypress(XKeyEvent *kev)
 
 	if (IsModifierKey(ksym))
 		return;
-	if (ksym == XK_Escape && MODMASK(kev->state) == 0) {
-		extprefix = False;
-	} else if (extprefix) {
-		run_key_handler(XKeysymToString(ksym), kev->state & ~sh);
-		extprefix = False;
-	} else if (key >= '0' && key <= '9') {
-		/* number prefix for commands */
-		prefix = prefix * 10 + (int) (key - '0');
-		return;
-	} else for (i = 0; i < ARRLEN(keys); i++) {
+    run_key_handler(XKeysymToString(ksym), kev->state & ~sh);
+    extprefix = False;
+	for (i = 0; i < ARRLEN(keys); i++) {
 		if (keys[i].ksym == ksym &&
 		    MODMASK(keys[i].mask | sh) == MODMASK(kev->state) &&
 		    keys[i].cmd >= 0 && keys[i].cmd < CMD_COUNT &&
