@@ -9,16 +9,16 @@ enum {
 /* bar font:
  * (see fonts-conf(5) subsection "FONT NAMES" for valid values)
  */
-static const char * const BAR_FONT = "monospace:size=8";
+static const char * const BAR_FONT = "PragmataPro for Powerline:size=12";
 
 /* colors:
  * (see X(7) section "COLOR NAMES" for valid values)
  */
-static const char * const WIN_BG_COLOR = "#555555";
+static const char * const WIN_BG_COLOR = "#000000";
 static const char * const WIN_FS_COLOR = "#000000";
-static const char * const SEL_COLOR    = "#EEEEEE";
-static const char * const BAR_BG_COLOR = "#222222";
-static const char * const BAR_FG_COLOR = "#EEEEEE";
+static const char * const SEL_COLOR    = "#1A5564";
+static const char * const BAR_BG_COLOR = "#111111";
+static const char * const BAR_FG_COLOR = "#1A5564";
 
 #endif
 #ifdef _IMAGE_CONFIG
