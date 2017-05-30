@@ -26,7 +26,7 @@
 
 typedef struct {
 	Imlib_Image im;
-	unsigned int delay;
+	float delay;
 } img_frame_t;
 
 typedef struct {
