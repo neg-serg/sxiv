@@ -4,7 +4,9 @@ VERSION := git-20170908
 
 include config.mk
 
-CPPFLAGS += -DVERSION=\"$(VERSION)\" -DHAVE_GIFLIB=$(HAVE_GIFLIB) -DHAVE_LIBEXIF=$(HAVE_LIBEXIF)
+VPATH := $(SRCDIR)
+
+CPPFLAGS += -I. -DVERSION=\"$(VERSION)\" -DHAVE_GIFLIB=$(HAVE_GIFLIB) -DHAVE_LIBEXIF=$(HAVE_LIBEXIF)
 DEPFLAGS := -MMD -MP
 
 LDLIBS := -lImlib2 -lX11 -lXft
@@ -32,7 +34,7 @@ $(OBJ): Makefile
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -c -o $@ $<
 
 config.h:
-	cp config.def.h $@
+	cp $(SRCDIR)/config.def.h $@
 
 sxiv:	$(OBJ)
 	$(CC) $(LDFLAGS) -o $@ $(OBJ) $(LDLIBS)
