@@ -611,8 +611,8 @@ void on_buttonpress(XButtonEvent *bev)
 	static Time firstclick;
 
 	if (mode == MODE_IMAGE) {
-		win_set_cursor(&win, CURSOR_ARROW);
 		set_timeout(reset_cursor, TO_CURSOR_HIDE, true);
+		reset_cursor();
 
 		for (i = 0; i < ARRLEN(buttons); i++) {
 			if (buttons[i].button == bev->button &&
@@ -772,8 +772,8 @@ void run(void)
 				break;
 			case MotionNotify:
 				if (mode == MODE_IMAGE) {
-					win_set_cursor(&win, CURSOR_ARROW);
 					set_timeout(reset_cursor, TO_CURSOR_HIDE, true);
+					reset_cursor();
 				}
 				break;
 		}
