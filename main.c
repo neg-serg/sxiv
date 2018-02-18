@@ -219,7 +219,6 @@ void close_info(void)
 		kill(info.pid, SIGTERM);
 		close(info.fd);
 		info.fd = -1;
-		waitpid(info.pid, NULL, WNOHANG);
 	}
 }
 
@@ -469,7 +468,7 @@ void run_key_handler(const char *key, unsigned int mask)
 	FILE *pfs;
 	bool marked = mode == MODE_THUMB && markcnt > 0;
 	bool changed = false;
-	int f, i, pfd[2], status;
+	int f, i, pfd[2];
 	int fcnt = marked ? markcnt : 1;
 	char kstr[32];
 	struct stat *oldst, st;
@@ -527,9 +526,7 @@ void run_key_handler(const char *key, unsigned int mask)
 		}
 	}
 	fclose(pfs);
-	waitpid(pid, &status, 0);
-	if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
-		error(0, 0, "%s: Exited abnormally", keyhandler.f.cmd);
+	while (waitpid(pid, NULL, 0) == -1 && errno == EINTR);
 
 	for (f = i = 0; f < fcnt; i++) {
 		if ((marked && (files[i].flags & FF_MARK)) || (!marked && i == fileidx)) {
@@ -784,6 +781,22 @@ int fncmp(const void *a, const void *b)
 	return strcoll(((fileinfo_t*) a)->name, ((fileinfo_t*) b)->name);
 }
 
+void sigchld(int sig)
+{
+	while (waitpid(-1, NULL, WNOHANG) > 0);
+}
+
+void setup_signal(int sig, void (*handler)(int sig))
+{
+	struct sigaction sa;
+
+	sa.sa_handler = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+	if (sigaction(sig, &sa, 0) == -1)
+		error(EXIT_FAILURE, errno, "signal %d", sig);
+}
+
 int main(int argc, char **argv)
 {
 	int i, start;
@@ -794,7 +807,8 @@ int main(int argc, char **argv)
 	struct stat fstats;
 	r_dir_t dir;
 
-	signal(SIGPIPE, SIG_IGN);
+	setup_signal(SIGCHLD, sigchld);
+	setup_signal(SIGPIPE, SIG_IGN);
 
 	setlocale(LC_COLLATE, "");
 
