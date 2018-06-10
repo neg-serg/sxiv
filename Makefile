@@ -1,29 +1,8 @@
-VERSION   := git-20161030
+VERSION := git-20170906
 
-PREFIX    := /usr/local
-MANPREFIX := $(PREFIX)/share/man
+.SUFFIXES:
 
-CC        ?= gcc
-CFLAGS    += -std=c99 -Wall -pedantic
-CPPFLAGS  += -I/usr/include/freetype2 -D_XOPEN_SOURCE=700
-LDFLAGS   += 
-LIBS      := -lImlib2 -lX11 -lXft
-
-# optional dependencies:
-# giflib: gif animations
-ifeq ($(WITH_GIFLIB), 1)
-	CPPFLAGS += -DHAVE_GIFLIB
-	LIBS     += -lgif
-endif
-# libexif: jpeg auto-orientation, exif thumbnails
-ifeq ($(WITH_LIBEXIF), 1)
-	CPPFLAGS += -DHAVE_LIBEXIF
-	LIBS     += -lexif
-endif
-
-# select autoreload backend
-# overwritten with `make AUTORELOAD=nop`
-AUTORELOAD := inotify
+include config.mk
 
 .PHONY: clean install uninstall
 
