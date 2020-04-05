@@ -12,6 +12,7 @@ enum {
 static const char * const BAR_FONT = "PragmataPro for Powerline:size=12";
 
 /* colors:
+ * overwritten by 'background' and 'foreground' X resource properties.
  * (see X(7) section "COLOR NAMES" for valid values)
  */
 static const char * const BG_COLOR = "#555555";
