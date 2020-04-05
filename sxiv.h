@@ -409,6 +409,7 @@ struct win {
 
 	XftColor bg;
 	XftColor fg;
+	XftColor sel;
 
 	int x;
 	int y;
