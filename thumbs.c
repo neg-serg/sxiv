@@ -478,7 +478,7 @@ void tns_mark(tns_t *tns, int n, bool mark)
 		if (mark)
 			col = win->sel.pixel;
 
-		win_draw_rect(win, x, y, tns->bw + 2, tns->bw + 2, true, 1, col);
+		win_draw_rect(win, x, y, tns->bw + 4, tns->bw + 4, true, 1, col);
 
 		if (!mark && n == *tns->sel)
 			tns_highlight(tns, n, true);
@@ -567,7 +567,7 @@ bool tns_zoom(tns_t *tns, int d)
 	tns->zl = MIN(tns->zl, ARRLEN(thumb_sizes)-1);
 
 	tns->bw = ((thumb_sizes[tns->zl] - 1) >> 5) + 1;
-	tns->bw = MIN(tns->bw, 4);
+	tns->bw = MIN(tns->bw, 2);
 	tns->dim = thumb_sizes[tns->zl] + 2 * tns->bw + 6;
 
 	if (tns->zl != oldzl) {
