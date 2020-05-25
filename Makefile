@@ -15,16 +15,17 @@ HAVE_GIFLIB = 1
 # enable features requiring libexif (-lexif)
 HAVE_LIBEXIF = 1
 
-cflags = -std=c99 -Wall -pedantic $(CFLAGS)
+# cflags = -std=c99 -Wall -fprofile-generate -pedantic -march=native -mtune=native -O3 $(CFLAGS)
+cflags = -std=c99 -Wall -fprofile-use -pedantic -march=native -mtune=native -O3 $(CFLAGS)
 cppflags = -I. $(CPPFLAGS) -D_XOPEN_SOURCE=700 \
   -DHAVE_GIFLIB=$(HAVE_GIFLIB) -DHAVE_LIBEXIF=$(HAVE_LIBEXIF) \
   -I/usr/include/freetype2 -I$(PREFIX)/include/freetype2
-
 lib_exif_0 =
 lib_exif_1 = -lexif
 lib_gif_0 =
 lib_gif_1 = -lgif
-ldlibs = $(LDLIBS) -lImlib2 -lX11 -lXft -lfontconfig \
+# ldlibs = $(LDLIBS) -fprofile-generate -lImlib2 -lX11 -lXft -lfontconfig
+ldlibs = $(LDLIBS) -fprofile-use -lImlib2 -lX11 -lXft -lfontconfig \
   $(lib_exif_$(HAVE_LIBEXIF)) $(lib_gif_$(HAVE_GIFLIB))
 
 objs = autoreload_$(AUTORELOAD).o commands.o image.o main.o options.o \
